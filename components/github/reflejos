@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+    <title>Reproducir sonido aleatorio con JavaScript</title>
+  </head>
+<BODY LANG="es-ES" DIR="LTR">
+    <h1>Reproducir sonido aleatorio con JavaScript</h1>
+    <p>Presiona el botón para reproducir un sonido aleatorio.</p>
+    <button onclick="playRandomSound()">Reproducir sonido</button>
+
+    <!-- Agrega un elemento de audio oculto -->
+    <audio id="sound" style="display:none;"></audio>
+
+    <script>
+      // Función para reproducir el sonido aleatorio
+      function playRandomSound() {
+        // Genera un tiempo aleatorio entre 1 y 4 segundos
+        var randomTime = Math.floor(Math.random() * 4000) + 1000;
+
+        // Obtiene el elemento de audio oculto y carga un archivo de sonido aleatorio
+        var audioElement = document.getElementById("sound");
+        audioElement.setAttribute("src", "https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg");
+
+        // Inicia la reproducción del sonido
+        audioElement.play();
+
+        // Función recursiva para reproducir el sonido nuevamente después de un tiempo
+        function playSoundAgain(count) {
+          if (count < 11 && !audioElement.paused) {
+            setTimeout(function() {
+              audioElement.currentTime = 0;
+              audioElement.play();
+              playSoundAgain(count + 1);
+            }, 3500);
+          } else {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+          }
+        }
+
+        // Llama a la función recursiva para reproducir el sonido 10 veces
+        playSoundAgain(1);
+
+        // Espera el tiempo aleatorio antes de detener la reproducción del sonido
+        setTimeout(function() {
+          audioElement.pause();
+          audioElement.currentTime = 0;
+        }, randomTime);
+      }
+    </script>
+  </body>
+</html>
